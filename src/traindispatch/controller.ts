@@ -10,10 +10,12 @@ const train : Train = new Intercity()
 
 app.get('/', (req : Request, res : Response) => {
   const train1 = {
-    "apiversion" : 1,
+    "apiversion" : "1",
     "author" : "NsSprinter",
     "color" : "#eeff00",
-    "version" : "0.01"
+    "version" : "0.01",
+    "head" : "smart-caterpillar",
+    "tail" : "replit-notmark"
   }
   res.status(200).send(train1)
 })
