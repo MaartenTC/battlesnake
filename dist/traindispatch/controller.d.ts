@@ -1,2 +1,2 @@
 export {};
-//# sourceMappingURL=controller.d.ts.map
+//# sourceMappingURL=Controller.d.ts.map

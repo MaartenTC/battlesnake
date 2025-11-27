@@ -1,5 +1,6 @@
 import { Move } from "./Move.js";
 import { randomInt } from "crypto";
+import {} from "./TrainData.js";
 export class Intercity {
     id;
     name;
@@ -11,6 +12,17 @@ export class Intercity {
         const moves = Object.values(Move);
         const chosenMove = moves[randomInt(moves.length)];
         return chosenMove;
+    }
+    getMetaData() {
+        const metaData = {
+            "apiversion": "1",
+            "author": "NsSprinter",
+            "color": "#eeff00",
+            "version": "0.01",
+            "head": "smart-caterpillar",
+            "tail": "replit-notmark"
+        };
+        return metaData;
     }
     constructor() {
         this.id = "1";

@@ -1,3 +1,4 @@
+import { Move } from "./Move.js";
 export interface Train {
     id: string;
     name: string;
@@ -5,6 +6,6 @@ export interface Train {
     body: Array<[string, number]>;
     length: number;
     shout: string;
-    move(): void;
+    move(): Move;
 }
 //# sourceMappingURL=TrainInterface.d.ts.map

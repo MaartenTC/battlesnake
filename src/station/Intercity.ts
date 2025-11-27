@@ -1,7 +1,7 @@
-import type { Train } from "./TrainInterface.js";
+import type { Train } from "../stationadapter/Train.js";
 import {Move} from "./Move.js"
 import { randomInt } from "crypto";
-
+import {type TrainData} from "./TrainData.js"
 export class Intercity implements Train{
     id : string;
     name : string;
@@ -14,6 +14,17 @@ export class Intercity implements Train{
         const moves : Move[] = Object.values(Move) as Move[];
         const chosenMove : Move = moves[randomInt(moves.length)]!
         return chosenMove
+    }
+    getMetaData() : TrainData {
+        const metaData : TrainData = {
+            "apiversion" : "1",
+            "author" : "NsSprinter",
+            "color" : "#eeff00",
+            "version" : "0.01",
+            "head" : "smart-caterpillar",
+            "tail" : "replit-notmark"
+        };
+        return metaData;
     }
     constructor() {
         this.id = "1"

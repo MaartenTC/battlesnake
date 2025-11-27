@@ -1,34 +1,35 @@
 import express, { type Request, type Response } from "express";
 import dotenv from "dotenv"
-import { Intercity } from "../station/Intercity.js";
-import { type Train } from "../station/TrainInterface.js";
+import { type Train } from "../stationadapter/Train.js";
+import {Move} from "../station/Move.js"
+import { TrainPicker } from "../stationadapter/TrainPicker.js";
+import { type TrainData } from "../station/TrainData.js";
 
 dotenv.config() 
 const app = express()
-const port = process.env.PORT || 3000
-const train : Train = new Intercity()
+const port : number = Number(process.env.PORT)
+const train : Train = new TrainPicker().getInterCity();
+console.log("setup completed");
 
 app.get('/', (req : Request, res : Response) => {
-  const train1 = {
-    "apiversion" : "1",
-    "author" : "NsSprinter",
-    "color" : "#eeff00",
-    "version" : "0.01",
-    "head" : "smart-caterpillar",
-    "tail" : "replit-notmark"
-  }
-  res.status(200).send(train1)
+  const metadata : TrainData = train.getMetaData();
+  res.status(200).send(metadata)
 })
 
 app.post("/start", (req : Request, res : Response)=>{
 
 })
 app.post("/move", (req : Request, res : Response)=>{
+  const move : Move = train.move();
+  console.log(`move selected:${move}`)
   res.status(200).send(train.move())
 })
 app.post("/end", (req : Request, res : Response)=>{
 
 })
-app.listen(port, () => {
-  console.log(`Server running locally on http://localhost:${port}`);
+const server = app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+server.on("error", (err) => {
+  console.error("Server failed:", err);
 });
