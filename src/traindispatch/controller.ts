@@ -4,14 +4,13 @@ import { type Train } from "../stationadapter/Train.js";
 import {Move} from "../station/Move.js"
 import { TrainPicker } from "../stationadapter/TrainPicker.js";
 import { type TrainData } from "../station/TrainData.js";
-import { type Board } from "../station/Board.js"
+
 dotenv.config() 
 const app = express()
 const port : number = Number(process.env.PORT)
 const trainPicker = new TrainPicker();
-const train : Train = trainPicker.getInterCity();
+const train : Train = trainPicker.getSprinter();
 app.use(express.json());
-console.log("setup completed");
 
 app.get('/', (req : Request, res : Response) => {
   const metadata : TrainData = train.getMetaData();

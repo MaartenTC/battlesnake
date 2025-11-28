@@ -1,6 +1,6 @@
-import { Intercity } from "../station/Intercity.js";
+import { Sprinter } from "../station/Sprinter.js";
 export class TrainPicker{
-    getInterCity() : Intercity{
-        return new Intercity();
+    getSprinter() : Sprinter{
+        return new Sprinter();
     }
 }

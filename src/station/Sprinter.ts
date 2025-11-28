@@ -4,7 +4,7 @@ import { randomInt } from "crypto";
 import {type TrainData} from "./TrainData.js"
 import { type Board } from "./Board.js";
 import { type Coord } from "./Coord.js";
-export class Intercity implements Train{
+export class Sprinter implements Train{
     id : string;
     name : string;
     health : number;
@@ -15,7 +15,7 @@ export class Intercity implements Train{
     
     constructor() {
         this.id = "1";
-        this.name = "Intercity"
+        this.name = "sprinter"
         this.health = 0;
         this.body = [];
         this.head = {"x" : 0, "y" : 0};
@@ -36,7 +36,7 @@ export class Intercity implements Train{
     getMetaData() : TrainData {
         const metaData : TrainData = {
             "apiversion" : "1",
-            "author" : "NsSprinter",
+            "author" : "ovsprinter",
             "color" : "#4263f5",
             "version" : "0.01",
             "head" : "smart-caterpillar",
