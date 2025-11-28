@@ -37,7 +37,7 @@ export class Intercity implements Train{
         const metaData : TrainData = {
             "apiversion" : "1",
             "author" : "NsSprinter",
-            "color" : "#f3ff45ff",
+            "color" : "#4263f5",
             "version" : "0.01",
             "head" : "smart-caterpillar",
             "tail" : "replit-notmark"
