@@ -107,14 +107,11 @@ export class Intercity implements Train{
     getOccupiedSpace(board : Board) : Map<string, boolean>{
         let occupiedSpace : Map<string, boolean> = new Map();
         const others : Array<Train> = board.snakes;
-        let bodyLocations : Array<Coord> = [];
+        this.body.forEach((coord : Coord)=>{occupiedSpace.set(this.getCoordKey(coord), true)})
         others.forEach((train : Train)=>{
-            bodyLocations = bodyLocations.concat(this.body);
-            bodyLocations = bodyLocations.concat(train.body);
-            bodyLocations = bodyLocations.concat(train.head);
-        })
-        bodyLocations.forEach((space : Coord)=>{
-            occupiedSpace.set(this.getCoordKey(space), true);
+            train.body.forEach((coord : Coord)=>{
+                occupiedSpace.set(this.getCoordKey(coord), true);
+            })
         })
         return occupiedSpace;
     }
