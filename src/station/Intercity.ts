@@ -8,7 +8,7 @@ export class Intercity implements Train{
     id : string;
     name : string;
     health : number;
-    body : Array<[Coord]>
+    body : Array<Coord>
     head : Coord
     length :  number;
     shout : string;
@@ -42,6 +42,21 @@ export class Intercity implements Train{
         return metaData;
     }
     getInvalidMoves(board : Board) : Array<Move>{
+        const borderMoves : Array<Move> = this.avoidBorders(board);
+        const neckMoves : Array<Move> = this.avoidSelf();
+        const invalidMoves : Array<Move>= borderMoves.concat(neckMoves);
+        return invalidMoves;
+    }
+    updateTrain(you : Train){
+        this.id = you.id;
+        this.name = you.name
+        this.health = you.health;
+        this.body = you.body;
+        this.head = you.head;
+        this.length = you.length;
+        this.shout = you.shout;
+    }
+    avoidBorders(board : Board) : Array<Move>{
         const headCoord : Coord = this.head;
         const height : number = board.height;
         const width : number = board.width;
@@ -60,13 +75,27 @@ export class Intercity implements Train{
         }
         return invalidMoves;
     }
-    updateTrain(you : Train){
-        this.id = you.id;
-        this.name = you.name
-        this.health = you.health;
-        this.body = you.body;
-        this.head = you.head;
-        this.length = you.length;
-        this.shout = you.shout;
+    avoidSelf() : Array<Move>{
+        const invalidMoves : Array<Move> = [];
+        const headCoord : Coord = this.head;
+
+        const rightCoord : Coord = {"x" : headCoord.x+1, "y" : headCoord.y};
+        const leftCoord : Coord = {"x" : headCoord.x -1, "y" : headCoord.y};
+        const upCoord : Coord = {"x" : headCoord.x, "y": headCoord.y+1};
+        const downCoord : Coord = {"x":headCoord.x, "y":headCoord.y-1};
+
+        if(this.body.includes(rightCoord) ){
+            invalidMoves.push(Move.RIGHT)
+        }
+        if(this.body.includes(leftCoord)){
+            invalidMoves.push(Move.LEFT)
+        }
+        if(this.body.includes(upCoord)){
+            invalidMoves.push(Move.UP)
+        }
+        if(this.body.includes(downCoord)){
+            invalidMoves.push(Move.DOWN)
+        }
+        return invalidMoves;
     }
 }

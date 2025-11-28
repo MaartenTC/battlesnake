@@ -6,7 +6,7 @@ export interface Train {
     id : string;
     name : string;
     health : number;
-    body : Array<[Coord]>;
+    body : Array<Coord>;
     head : Coord;
     length :  number;
     shout : string;
