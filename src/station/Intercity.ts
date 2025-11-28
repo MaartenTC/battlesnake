@@ -45,8 +45,9 @@ export class Intercity implements Train{
         return metaData;
     }
     getInvalidMoves(board : Board) : Array<Move>{
+        const occupiedSpace : Map<string, boolean> = this.getOccupiedSpace(board);
         const borderMoves : Array<Move> = this.avoidBorders(board);
-        const neckMoves : Array<Move> = this.avoidSelf();
+        const neckMoves : Array<Move> = this.avoidBodies(occupiedSpace);
         const invalidMoves : Array<Move>= borderMoves.concat(neckMoves);
         return invalidMoves;
     }
@@ -78,7 +79,7 @@ export class Intercity implements Train{
         }
         return invalidMoves;
     }
-    avoidSelf() : Array<Move>{
+    avoidBodies(occupiedSpace : Map<string, boolean>) : Array<Move>{
         const invalidMoves: Array<Move> = [];
         const headCoord: Coord = this.head;
 
@@ -87,19 +88,38 @@ export class Intercity implements Train{
         const upCoord: Coord = { x: headCoord.x, y: headCoord.y + 1 };
         const downCoord: Coord = { x: headCoord.x, y: headCoord.y - 1 };
 
-        if (this.body.some(c => c.x === rightCoord.x && c.y === rightCoord.y)) {
+        if(occupiedSpace.get(this.getCoordKey(rightCoord))){
             invalidMoves.push(Move.RIGHT);
         }
-        if (this.body.some(c => c.x === leftCoord.x && c.y === leftCoord.y)) {
+        if(occupiedSpace.get(this.getCoordKey(leftCoord))){
             invalidMoves.push(Move.LEFT);
         }
-        if (this.body.some(c => c.x === upCoord.x && c.y === upCoord.y)) {
+        if(occupiedSpace.get(this.getCoordKey(upCoord))){
             invalidMoves.push(Move.UP);
         }
-        if (this.body.some(c => c.x === downCoord.x && c.y === downCoord.y)) {
+        if(occupiedSpace.get(this.getCoordKey(downCoord))){
             invalidMoves.push(Move.DOWN);
         }
+
         return invalidMoves;
+    }
+
+    getOccupiedSpace(board : Board) : Map<string, boolean>{
+        let occupiedSpace : Map<string, boolean> = new Map();
+        const others : Array<Train> = board.snakes;
+        let bodyLocations : Array<Coord> = [];
+        others.forEach((train : Train)=>{
+            bodyLocations = bodyLocations.concat(this.body);
+            bodyLocations = bodyLocations.concat(train.body);
+            bodyLocations = bodyLocations.concat(train.head);
+        })
+        bodyLocations.forEach((space : Coord)=>{
+            occupiedSpace.set(this.getCoordKey(space), true);
+        })
+        return occupiedSpace;
+    }
+    getCoordKey(coord : Coord) : string{
+        return `${coord.x},${coord.y}`
     }
 
 }
