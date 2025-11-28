@@ -26,12 +26,7 @@ export class Intercity implements Train{
         const moves : Move[] = Object.values(Move) as Move[];
         this.updateTrain(you);
         const invalidMoves : Array<Move> = this.getInvalidMoves(board);
-        const validMoves = moves.reduce((accumulator: Move[], currentValue: Move) => {
-            if(!invalidMoves.includes(currentValue)){
-                accumulator.push(currentValue)
-            }
-            return accumulator;
-        }, []);
+        const validMoves = moves.filter((move : Move) => !invalidMoves.includes(move));
         const chosenMove : Move = validMoves[randomInt(validMoves.length)]!
     return chosenMove
     }
