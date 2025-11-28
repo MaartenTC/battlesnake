@@ -27,8 +27,11 @@ export class Intercity implements Train{
         this.updateTrain(you);
         const invalidMoves : Array<Move> = this.getInvalidMoves(board);
         const validMoves = moves.filter((move : Move) => !invalidMoves.includes(move));
+        if(validMoves.length < 1){
+            return Move.UP;
+        }
         const chosenMove : Move = validMoves[randomInt(validMoves.length)]!
-    return chosenMove
+        return chosenMove
     }
     getMetaData() : TrainData {
         const metaData : TrainData = {
@@ -76,26 +79,27 @@ export class Intercity implements Train{
         return invalidMoves;
     }
     avoidSelf() : Array<Move>{
-        const invalidMoves : Array<Move> = [];
-        const headCoord : Coord = this.head;
+        const invalidMoves: Array<Move> = [];
+        const headCoord: Coord = this.head;
 
-        const rightCoord : Coord = {"x" : headCoord.x+1, "y" : headCoord.y};
-        const leftCoord : Coord = {"x" : headCoord.x -1, "y" : headCoord.y};
-        const upCoord : Coord = {"x" : headCoord.x, "y": headCoord.y+1};
-        const downCoord : Coord = {"x":headCoord.x, "y":headCoord.y-1};
+        const rightCoord: Coord = { x: headCoord.x + 1, y: headCoord.y };
+        const leftCoord: Coord = { x: headCoord.x - 1, y: headCoord.y };
+        const upCoord: Coord = { x: headCoord.x, y: headCoord.y + 1 };
+        const downCoord: Coord = { x: headCoord.x, y: headCoord.y - 1 };
 
-        if(this.body.includes(rightCoord) ){
-            invalidMoves.push(Move.RIGHT)
+        if (this.body.some(c => c.x === rightCoord.x && c.y === rightCoord.y)) {
+            invalidMoves.push(Move.RIGHT);
         }
-        if(this.body.includes(leftCoord)){
-            invalidMoves.push(Move.LEFT)
+        if (this.body.some(c => c.x === leftCoord.x && c.y === leftCoord.y)) {
+            invalidMoves.push(Move.LEFT);
         }
-        if(this.body.includes(upCoord)){
-            invalidMoves.push(Move.UP)
+        if (this.body.some(c => c.x === upCoord.x && c.y === upCoord.y)) {
+            invalidMoves.push(Move.UP);
         }
-        if(this.body.includes(downCoord)){
-            invalidMoves.push(Move.DOWN)
+        if (this.body.some(c => c.x === downCoord.x && c.y === downCoord.y)) {
+            invalidMoves.push(Move.DOWN);
         }
         return invalidMoves;
     }
+
 }
