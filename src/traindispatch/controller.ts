@@ -10,7 +10,7 @@ const app = express()
 const port : number = Number(process.env.PORT)
 const trainPicker = new TrainPicker();
 const train : Train = trainPicker.getInterCity();
-
+app.use(express.json());
 console.log("setup completed");
 
 app.get('/', (req : Request, res : Response) => {
