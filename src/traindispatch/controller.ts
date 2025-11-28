@@ -19,9 +19,10 @@ app.get('/', (req : Request, res : Response) => {
 })
 
 app.post("/start", (req : Request, res : Response)=>{
-
+  console.log(req.body);
 })
 app.post("/move", (req : Request, res : Response)=>{
+  console.log(req.body);
   const move : Move = train.move(req.body.board, req.body.you);
   console.log(`move selected:${move}`)
   res.status(200).send({"move" : move, "shout": train.shout})
