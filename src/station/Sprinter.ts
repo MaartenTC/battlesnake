@@ -24,8 +24,13 @@ export class Sprinter implements Train{
     }
     move(board : Board, you : Train) : Move{
         const moves : Move[] = Object.values(Move) as Move[];
+        const preferredMove : Move | undefined = this.getFuelDirection(board);
+
         this.updateTrain(you);
         const invalidMoves : Array<Move> = this.getInvalidMoves(board);
+        if(preferredMove && !invalidMoves.includes(preferredMove)){
+            return preferredMove;
+        }
         const validMoves = moves.filter((move : Move) => !invalidMoves.includes(move));
         if(validMoves.length < 1){
             return Move.UP;
@@ -40,7 +45,7 @@ export class Sprinter implements Train{
             "color" : "#4263f5",
             "version" : "0.01",
             "head" : "smart-caterpillar",
-            "tail" : "replit-notmark"
+            "tail" : "bonhomme"
         };
         return metaData;
     }
@@ -115,8 +120,28 @@ export class Sprinter implements Train{
         })
         return occupiedSpace;
     }
+    getFuelDirection(board : Board) : Move | undefined{
+        const foodCoords : Array<Coord> = board.food;
+        const headCoord : Coord = this.head;
+        foodCoords.forEach((foodCoord : Coord)=>{
+            // if food is on same x go up or down, if food on same y go left or right
+            if(foodCoord.x === headCoord.x){
+                if(headCoord.y < foodCoord.y){
+                    return Move.UP;
+                }
+                return Move.DOWN;
+            }
+            else if(foodCoord.y === headCoord.y){
+                if(headCoord.x < foodCoord.x){
+                    return Move.RIGHT;
+                }
+                return Move.LEFT;
+            }
+        })
+        return undefined;
+    }
     getCoordKey(coord : Coord) : string{
         return `${coord.x},${coord.y}`
     }
-
+    
 }
