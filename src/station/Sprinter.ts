@@ -44,8 +44,8 @@ export class Sprinter implements Train{
             "author" : "ovsprinter",
             "color" : "#4263f5",
             "version" : "0.01",
-            "head" : "smart-caterpillar",
-            "tail" : "bonhomme"
+            "head" : "train",
+            "tail" : "default"
         };
         return metaData;
     }
