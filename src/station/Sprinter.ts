@@ -22,9 +22,10 @@ export class Sprinter implements Train{
         this.length = 0;
         this.shout = "Choo Choo!";
     }
+
     move(board : Board, you : Train) : Move{
         const moves : Move[] = Object.values(Move) as Move[];
-        const preferredMove : Move | undefined = this.getFuelDirection(board);
+        const preferredMove : Move | undefined = this.getFuelDirection(board.food);
 
         this.updateTrain(you);
         const invalidMoves : Array<Move> = this.getInvalidMoves(board);
@@ -120,25 +121,21 @@ export class Sprinter implements Train{
         })
         return occupiedSpace;
     }
-    getFuelDirection(board : Board) : Move | undefined{
-        const foodCoords : Array<Coord> = board.food;
+    getFuelDirection(foodCoords : Array<Coord>) : Move | undefined{
         const headCoord : Coord = this.head;
-        foodCoords.forEach((foodCoord : Coord)=>{
-            // if food is on same x go up or down, if food on same y go left or right
-            if(foodCoord.x === headCoord.x){
-                if(headCoord.y < foodCoord.y){
-                    return Move.UP;
-                }
-                return Move.DOWN;
-            }
-            else if(foodCoord.y === headCoord.y){
-                if(headCoord.x < foodCoord.x){
-                    return Move.RIGHT;
-                }
-                return Move.LEFT;
-            }
-        })
-        return undefined;
+        const foodCoord : Coord | undefined = foodCoords.find(foodCoord => {
+            return (
+                foodCoord.x === headCoord.x ||
+                foodCoord.y === headCoord.y
+            );
+        });
+        if (!foodCoord) return undefined;
+
+        if (foodCoord.x === headCoord.x) {
+            return headCoord.y < foodCoord.y ? Move.UP : Move.DOWN;
+        }
+
+        return headCoord.x < foodCoord.x ? Move.RIGHT : Move.LEFT;
     }
     getCoordKey(coord : Coord) : string{
         return `${coord.x},${coord.y}`
